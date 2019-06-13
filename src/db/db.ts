@@ -10,7 +10,7 @@ export default class MySQL {
             host: 'localhost',
             user: 'root',
             password: '',
-            database: "AngularMap"
+            database: "mapa"
         });
         this.conectarDB();
     }

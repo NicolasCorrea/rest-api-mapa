@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/markers", (req: Request, res: Response) => {
     const query = `SELECT * FROM markers`;
-    MySQL.ejecutarQuery(query, (err: any, heroes: Object[]) => {
+    MySQL.ejecutarQuery(query, (err: any, markers: Object[]) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -16,16 +16,15 @@ router.get("/markers", (req: Request, res: Response) => {
         } else {
             res.json({
                 ok: true,
-                heroes
+                markers
             })
         }
     });
 })
 router.get('/markers/:name', (req: Request, res: Response) => {
     const name = req.params.name;
-    const escapeName = MySQL.instance.cnn.escape(name);
-    const query = `SELECT * FROM markers where name=${escapeName}`;
-    MySQL.ejecutarQuery(query, (err: any, heroe: Object[]) => {
+    const query = `SELECT * FROM markers WHERE name LIKE "%${name}%"`;
+    MySQL.ejecutarQuery(query, (err: any, marker: Object[]) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -34,8 +33,8 @@ router.get('/markers/:name', (req: Request, res: Response) => {
         } else {
             res.json({
                 ok: true,
-                heroe: heroe[0]
-            })
+                markers: marker
+            });
         }
     });
 })
